@@ -1,0 +1,77 @@
+<kendo-grid 
+    [data]="view | async" 
+    [height]="533" 
+    [pageSize]="gridState.take" 
+    [skip]="gridState.skip" 
+    [sort]="gridState.sort"
+    [pageable]="true" 
+    [sortable]="true" 
+    [group]="gridState.group"
+    [groupable]="{ showFooter: true }"
+    (dataStateChange)="onStateChange($event)" 
+    (edit)="editHandler($event)" 
+    (cancel)="cancelHandler($event)"
+    (save)="saveHandler($event)" 
+    (remove)="removeHandler($event)" 
+    (add)="addHandler($event)">
+    <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand kendoButton [primary]="true" [bare]="true" [icon]="'add'">Add New Expense</button>
+    </ng-template>
+    <kendo-grid-column field="name" title="Expense"></kendo-grid-column>
+    <kendo-grid-column field="amount" editor="numeric" title="Amount"></kendo-grid-column>
+    <kendo-grid-column field="shared" editor="boolean" title="Shared"></kendo-grid-column>
+    <kendo-grid-column field="issuedDate" editor="date" title="Issued">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.issuedDate | date:'MM/dd/yyyy'}}
+        </ng-template>
+        <ng-template kendoGridGroupHeaderTemplate let-value="value">
+            {{value | date:'MM/dd/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="personId" title="For">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ getPerson(dataItem.personId)?.name }}
+        </ng-template>
+        <ng-template kendoGridEditTemplate
+                let-dataItem="dataItem"
+                let-formGroup="formGroup">
+            <kendo-dropdownlist
+                [data]="people"
+                textField="name"
+                valueField="id"
+                [valuePrimitive]="true"
+                [formControl]="formGroup.get('personId')">
+            </kendo-dropdownlist>
+        </ng-template>
+        <ng-template kendoGridGroupHeaderTemplate let-value="value">
+            {{ getPerson(value)?.name }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="categoryId" title="Category">        
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ getCategory(dataItem.categoryId)?.name }}
+        </ng-template>
+        <ng-template kendoGridEditTemplate
+                let-dataItem="dataItem"
+                let-formGroup="formGroup">
+            <kendo-dropdownlist
+                [data]="categories"
+                textField="name"
+                valueField="id"
+                [valuePrimitive]="true"
+                [formControl]="formGroup.get('categoryId')">
+            </kendo-dropdownlist>
+        </ng-template>
+        <ng-template kendoGridGroupHeaderTemplate let-value="value">
+            {{ getCategory(value)?.name }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-command-column>
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+            <button kendoGridEditCommand kendoButton [bare]="true" [primary]="true" [icon]="'edit'"></button>
+            <button kendoGridRemoveCommand kendoButton [bare]="true" [icon]="'delete'"></button>
+            <button kendoGridSaveCommand kendoButton [bare]="true" [primary]="true" [disabled]="formGroup?.invalid" [icon]="'save'"></button>
+            <button kendoGridCancelCommand kendoButton [bare]="true" [icon]="'cancel'"></button>
+        </ng-template>
+    </kendo-grid-command-column>
+</kendo-grid>
