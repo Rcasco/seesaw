@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-block">
+        <form class="k-form" [formGroup]="calculateStart">
+            <fieldset>
+                <legend>Expense Date Range</legend>
+
+                <label class="k-form-field">
+                    <span>Start</span>
+                    <kendo-datepicker [(value)]="startDate"></kendo-datepicker>
+                </label>
+                <label class="k-form-field">
+                    <span>End</span>
+                    <kendo-datepicker [(value)]="endDate"></kendo-datepicker>
+                </label>
+            </fieldset>
+
+            <div class="text-right">
+                <button kendoButton 
+                [bare]="true" 
+                [primary]="true" 
+                [icon]="'cog'"
+                (click)="clickHandler()">Calculate</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    Total expenses in selected date range: ${{ total }}
+    <div *ngFor='let calculation of calculations'>
+        Total expenses for {{ getPerson(calculation.personId)?.name }}: ${{ calculation.total }}
+    </div>  
+    <div *ngFor='let person of people'>
+        {{ person.name }} owes 
+        <kendo-dropdownlist
+            [data]="getEveryoneButMe(person)"
+            [textField]="'name'"
+            [valueField]="'id'"
+            [value]="getFirstPersonNotMe(person)">
+        </kendo-dropdownlist>
+        ${{ divideIndividualExpenses(getFirstPersonNotMe(person)) }}
+    </div>
+    In order to balance expenses:
+    <div *ngFor='let person of people'>        
+        <div *ngFor='let otherPerson of getEveryoneButMe(person)'>
+            <span *ngIf='calculateDebt(person, otherPerson) > 0'>
+                {{ person.name }} should pay {{ otherPerson.name }} ${{ calculateDebt(person, otherPerson) }}
+            </span>
+        </div>
+    </div>
+</div>
