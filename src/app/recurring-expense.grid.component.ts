@@ -99,6 +99,9 @@ export class RecurringExpenseGridComponent implements OnInit {
     }
 
     public getPerson(id: number): any {
+        if(this.people == null) {
+            return "";
+        }
         return this.people.find(x => x.id === id);
     }
 
@@ -108,6 +111,9 @@ export class RecurringExpenseGridComponent implements OnInit {
     }
 
     public getFrequency(id: number): any {
+        if(this.frequencies == null) {
+            return "";
+        }
         return this.frequencies.find(x => x.id === id);
     }
 

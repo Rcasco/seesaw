@@ -41,6 +41,9 @@ export class CalculateComponent {
     }
 
     public getPerson(id: number): any {
+        if(this.people == null) {
+            return "";
+        }
         return this.people.find(x => x.id === id);
     }
 
@@ -50,6 +53,9 @@ export class CalculateComponent {
     }
 
     public divideIndividualExpenses(person) {
+        if(this.calculations == null) {
+            return "";
+        }
         let expenses = this.calculations.filter(function(calculation) {
             return person.id === calculation.personId;
         });
@@ -57,6 +63,9 @@ export class CalculateComponent {
     }
 
     public calculateDebt(person, otherPerson) {
+        if(this.calculations == null) {
+            return "";
+        }
         let personExpenses = this.calculations.filter(function(calculation) {
             return person.id === calculation.personId;
         });

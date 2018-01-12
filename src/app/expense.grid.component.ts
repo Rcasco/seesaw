@@ -52,7 +52,7 @@ export class ExpenseGridComponent implements OnInit {
         this.formGroup = new FormGroup({
             'id': new FormControl(0),
             'name': new FormControl("", Validators.required),
-            'amount': new FormControl("", Validators.compose([Validators.required, Validators.pattern('^[0-9]{1,2}')])),
+            'amount': new FormControl("", Validators.compose([Validators.required, Validators.pattern('^[0-9]{1,4}')])),
             'shared': new FormControl(true),
             'issuedDate': new FormControl(new Date()),
             'personId': new FormControl(1),
@@ -105,6 +105,10 @@ export class ExpenseGridComponent implements OnInit {
     }
 
     public getCategory(id: number): any {
+        if(this.categories == null)
+        {
+            return "";
+        }
         return this.categories.find(x => x.id === id);
     }
 
