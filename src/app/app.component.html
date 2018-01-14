@@ -1,0 +1,23 @@
+<h1>{{title}}</h1>
+<kendo-tabstrip>
+    <kendo-tabstrip-tab [title]="'Expenses'" [selected]="true">
+        <ng-template kendoTabContent>
+            <expense-grid></expense-grid>
+        </ng-template>
+    </kendo-tabstrip-tab>
+    <kendo-tabstrip-tab [title]="'Expense Categories'">
+        <ng-template kendoTabContent>
+            <category-grid></category-grid>
+        </ng-template>
+    </kendo-tabstrip-tab>
+    <kendo-tabstrip-tab [title]="'Recurring Expenses'">
+        <ng-template kendoTabContent>
+            <recurring-expense-grid></recurring-expense-grid>
+        </ng-template>
+    </kendo-tabstrip-tab>
+    <kendo-tabstrip-tab [title]="'Calculate'">
+        <ng-template kendoTabContent>
+            <calculate-component></calculate-component>
+        </ng-template>
+    </kendo-tabstrip-tab>
+</kendo-tabstrip>
